@@ -18,30 +18,38 @@ def handle_dialog(request, response, user_storage):
         }
 
         buttons, user_storage = get_suggests(user_storage)
-        response.set_text('Привет! Давай поиграем в Ерундопель!')
+        response.set_text('Привет! Давай поиграем в Завалинки!')
         response.set_buttons(buttons)
 
 
         return response, user_storage
 
-    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен'] and not user_storage.get("gameData"):
-        user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","words":read_data(),"answer":"","score":0}
+    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен'] and not user_storage.get(request.user_id):
+        user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ", "words":read_data(),"answer":"","score":0}
 
     if user_storage.get(request.user_id):
         if user_storage[request.user_id]["answer"]:
-            if request.command.lower().replace(",.!?:;\\|/") == user_storage[request.user_id]["answer"].lower().replace(",.!?:;\\|/"):
+            if request.command.lower().replace(".", "").replace(";","").strip() == user_storage[request.user_id]["answer"].lower().replace(".", "").replace(";","").strip():
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
                 user_storage[request.user_id]["score"]+=1
             else:
                 user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(user_storage[request.user_id]["answer"])
 
-        word = random.choice(user_storage[request.user_id]["words"].keys())
+        word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
         answer = list(map(lambda x:x[0],answers))
         del user_storage[request.user_id]["words"][word]
         user_storage[request.user_id]["movesLeft"]-=1
         if user_storage[request.user_id]["movesLeft"] > 0:
-            response.set_text(user_storage[request.user_id]["text"]+"{} - это:".format(word)+" ".join(answer))
+            user_storage["suggests"] = [i.lower().replace(".", "").replace(";","").strip() for i in answer]
+            print(user_storage)
+            buttons, user_storage = get_suggests(user_storage)
+            response.set_buttons(buttons)
+            response.set_text(user_storage[request.user_id]["text"]+"{} - это:".format(word))
+            for e in answers:
+                if e[1]:
+                    user_storage[request.user_id]["answer"] = e[0]
+                    break
         else:
             response.set_text(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
 
@@ -49,11 +57,8 @@ def handle_dialog(request, response, user_storage):
         response.set_text('Ерундопель - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
                           ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
                           ' Если Вы угадали, то вам насчитывается балл.')
-
-
-    buttons, user_storage = get_suggests(user_storage)
-    response.set_text(''.format(request.command))
-    response.set_buttons(buttons)
+        buttons, user_storage = get_suggests(user_storage)
+        response.set_buttons(buttons)
 
     return response, user_storage
 
@@ -61,14 +66,7 @@ def handle_dialog(request, response, user_storage):
 def get_suggests(user_storage):
     suggests = [
         {'title': suggest, 'hide': True}
-        for suggest in user_storage['suggests'][:2]
+        for suggest in user_storage['suggests']
     ]
-    user_storage['suggests'] = user_storage['suggests'][1:]
-    if len(suggests) < 2:
-        suggests.append({
-             "title": "Ладно",
-             "url": "https://market.yandex.ru/search?text=слон",
-             "hide": True
-         })
 
     return suggests, user_storage
