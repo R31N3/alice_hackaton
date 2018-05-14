@@ -1,7 +1,11 @@
 # coding: utf-8
 from __future__ import unicode_literals
-import random
+import random, json
 
+
+def read_data():
+    with open("words.json", encoding="utf-8") as file:
+        return json.loads(file)
 # Функция для непосредственной обработки диалога.
 def handle_dialog(request, response, user_storage):
     if request.is_new_session:
@@ -24,12 +28,15 @@ def handle_dialog(request, response, user_storage):
         user_storage["gameData"] = {"movesLeft": random.randint(15, 25), "text": "Начинаем!"}
 
     if user_storage.get("gameData"):
+        words = read_data()
 
 
     # Обрабатываем ответ пользователя.
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         # Пользователь согласился, прощаемся.
-        response.set_text('Ерундопель - это игра на интуинтивное знание слов. Я называю Вам слово, например, Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек. Если Вы угадали, то вам насчитывается балл.')
+        response.set_text('Ерундопель - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
+                          ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
+                          ' Если Вы угадали, то вам насчитывается балл.')
 
 
 
