@@ -42,10 +42,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="715" />
+    <option name="x" value="142" />
     <option name="y" value="-4" />
-    <option name="width" value="651" />
-    <option name="height" value="772" />
+    <option name="width" value="1279" />
+    <option name="height" value="724" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -94,12 +94,12 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/Dockerfile</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/README.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/alice_app.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/alice_sdk.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/elephant.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/requirements.txt</PATH>
+          <PATH vcs="Git" revision="" />
+          <PATH vcs="Git" revision="" />
+          <PATH vcs="Git" revision="" />
+          <PATH vcs="Git" revision="" />
+          <PATH vcs="Git" revision="" />
+          <PATH vcs="Git" revision="" />
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
