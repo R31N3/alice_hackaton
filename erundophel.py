@@ -5,9 +5,6 @@ import random
 # Функция для непосредственной обработки диалога.
 def handle_dialog(request, response, user_storage):
     if request.is_new_session:
-        # Это новый пользователь.
-        # Инициализируем сессию и поприветствуем его.
-
         user_storage = {
             'suggests': [
                 "Хорошо","ОК",
