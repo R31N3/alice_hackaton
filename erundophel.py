@@ -30,6 +30,7 @@ def handle_dialog(request, response, user_storage):
     if user_storage.get(request.user_id):
         word = random.choice(user_storage[request.user_id]["words"].keys())
         answers = user_storage[request.user_id]["words"][word]
+        del(user_storage[request.user_id]["words"][word])
 
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         response.set_text('Ерундопель - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
