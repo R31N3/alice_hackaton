@@ -18,7 +18,7 @@ def handle_dialog(request, response, user_storage):
         }
 
         buttons, user_storage = get_suggests(user_storage)
-        response.set_text('Привет! Давай поиграем в Завалинки!')
+        response.set_text('Привет! Давай поиграем в Завалинку!')
         response.set_buttons(buttons)
 
 
@@ -54,7 +54,7 @@ def handle_dialog(request, response, user_storage):
             response.set_text(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
 
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
-        response.set_text('Ерундопель - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
+        response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
                           ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
                           ' Если Вы угадали, то вам насчитывается балл.')
         buttons, user_storage = get_suggests(user_storage)
