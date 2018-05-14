@@ -5,9 +5,9 @@ import random, json
 def read_data():
     with open("words.json", encoding="utf-8") as file:
         data = json.loads(file.read())
-        print(random.choice(data["Ё′ХОР"]))
         return data
-read_data()
+
+
 def handle_dialog(request, response, user_storage):
     if request.is_new_session:
         user_storage = {
@@ -28,7 +28,8 @@ def handle_dialog(request, response, user_storage):
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем!","words":read_data()}
 
     if user_storage.get(request.user_id):
-
+        word = random.choice(user_storage[request.user_id]["words"].keys())
+        answers = user_storage[request.user_id]["words"][word]
 
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         response.set_text('Ерундопель - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
