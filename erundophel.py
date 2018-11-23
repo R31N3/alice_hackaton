@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 import random, json
-
+import database_module
 
 def read_data():
     with open("words.json", encoding="utf-8") as file:
