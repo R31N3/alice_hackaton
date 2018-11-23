@@ -19,6 +19,7 @@ def handle_dialog(request, response, user_storage):
 
         buttons, user_storage = get_suggests(user_storage)
         response.set_text('Привет! Давай поиграем в Завалинку!')
+        response.set_tts('Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!')
         response.set_buttons(buttons)
 
 
@@ -46,17 +47,21 @@ def handle_dialog(request, response, user_storage):
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             response.set_text(user_storage[request.user_id]["text"]+"{} - это:".format(word))
+            response.set_tts(user_storage[request.user_id]["text"]+"{} - это:".format(word))
             for e in answers:
                 if e[1]:
                     user_storage[request.user_id]["answer"] = e[0]
                     break
         else:
             response.set_text(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
-
+            response.set_tts(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы зараб+отали {} баллов. Предлаг+аю сыграть ещё!".format(user_storage[request.user_id]["score"]))
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
                           ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
                           ' Если Вы угадали, то вам насчитывается балл.')
+        response.set_tts('Зав+алинка - это игра на интуинт+ивное знание слов. Я назыв+аю Вам слово, например,'
+                                  ' Кукушл+яндия. Я предлагаю Вам ответы внизу, наприм+ер, страна кук+ушек.'
+                                  ' Если Вы угад+али, то вам насч+итывается балл.')        
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
 
