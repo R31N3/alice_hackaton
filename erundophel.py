@@ -7,6 +7,16 @@ def read_data():
         data = json.loads(file.read())
         return data
 
+def map_answer(myAns):
+    return  myAns.replace(".", "").replace(";","").strip()
+
+def saveResult(resultData): #Функция для сохранения результата (возвращает True если успешно)
+    return True
+
+
+def getAllResults(): #Функция для получения всех результатов из данных (возвращает результаты по типу [{"Имя":очки},{"Имя2":очки}])
+    return []
+
 
 def handle_dialog(request, response, user_storage):
     if request.is_new_session:
@@ -30,11 +40,11 @@ def handle_dialog(request, response, user_storage):
 
     if user_storage.get(request.user_id):
         if user_storage[request.user_id]["answer"]:
-            if request.command.lower().replace(".", "").replace(";","").strip() == user_storage[request.user_id]["answer"].lower().replace(".", "").replace(";","").strip():
+            if map_answer(request.command) == map_answer(user_storage[request.user_id]["answer"]):
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
                 user_storage[request.user_id]["score"]+=1
             else:
-                user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(user_storage[request.user_id]["answer"])
+                user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
 
         word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
