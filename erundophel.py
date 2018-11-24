@@ -33,12 +33,10 @@ def handle_dialog(request, response, user_storage):
         response.set_text('Привет! Давай поиграем в Завалинку!')
         response.set_tts('Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!')
         response.set_buttons(buttons)
-
-
         return response, user_storage
 
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен'] and not user_storage.get(request.user_id):
-        user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ", "words":read_data(),"answer":"","score":0}
+        user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
 
     if user_storage.get(request.user_id):
         if user_storage[request.user_id]["answer"]:
@@ -57,7 +55,7 @@ def handle_dialog(request, response, user_storage):
         user_storage[request.user_id]["movesLeft"]-=1
         if user_storage[request.user_id]["movesLeft"] > 0:
             user_storage["suggests"] = [i.lower().replace(".", "").replace(";","").strip() for i in answer]
-            print(user_storage)
+            #print(user_storage)
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             response.set_text(user_storage[request.user_id]["text"]+"{} - это:".format(map_answer(word)))
