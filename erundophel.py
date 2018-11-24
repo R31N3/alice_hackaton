@@ -30,8 +30,9 @@ def handle_dialog(request, response, user_storage):
         }
 
         buttons, user_storage = get_suggests(user_storage)
-        response.set_text('Привет! Давай поиграем в Завалинку!')
-        response.set_tts('Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!')
+        hello = random.choice([['Привет! Давай поиграем в Завалинку!','Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!'],["Не хочешь ли поиграть в завалинку?","Не х+очешь ли поигр+ать в зав+алинку?"],["Может быть сыграем в завалинку?","М+ожет быть сыгр+аем в зав+алинку?"],"Я хочу поиграть с тобой в завалинку","Я хочу поигр+ать с тоб+ой в зав+алинку!"])
+        response.set_text(hello[0])
+        response.set_tts(hello[1])
         response.set_buttons(buttons)
         return response, user_storage
     answered = False
@@ -43,12 +44,14 @@ def handle_dialog(request, response, user_storage):
         answered = True
         if user_storage[request.user_id]["answer"]:
             if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
-                user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
-                user_storage[request.user_id]["textToSpeech"] = "Пр+авильно! Сл+едующий вопр+ос: "
+                otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
+                user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
+                user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Сл+едующий вопр+ос: "
                 user_storage[request.user_id]["score"]+=1
             else:
-                user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
-                user_storage[request.user_id]["textToSpeech"] = "Непр+авильно, это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
+                otvet = random.choice([["Неправильно!","Непр+авильно!"],["Неверно!","Нев+ерно!"],["Вы ошиблись!","Вы ош+иблись!"]])
+                user_storage[request.user_id]["text"] = otvet[0]+" Это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
+                user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
 
         word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
@@ -67,8 +70,9 @@ def handle_dialog(request, response, user_storage):
                     user_storage[request.user_id]["answer"] = e[0]
                     break
         else:
-            response.set_text(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
-            response.set_tts(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы зараб+отали {} баллов. Предлаг+аю сыграть ещё!".format(user_storage[request.user_id]["score"]))
+            end = random.choice([["Oй! Это всё за эту игру.","Oй! Это всё за эту игру."],["Жаль. Слова кончились.","Жаль. Слова к+ончились."]])
+            response.set_text(user_storage[request.user_id]["text"] + end[0]+" Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
+            response.set_tts(user_storage[request.user_id]["text"] + end[1]+" Вы зараб+отали {} баллов. Предлаг+аю сыграть ещё!".format(user_storage[request.user_id]["score"]))
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
