@@ -36,6 +36,9 @@ def handle_dialog(request, response, user_storage):
         buttons, user_storage = get_suggests(user_storage)
         response.set_text('Привет! Давай поиграем в Завалинку!')
         response.set_tts('Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!')
+        hello = random.choice([['Привет! Давай поиграем в Завалинку!','Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!'],["Не хочешь ли поиграть в завалинку?","Не х+очешь ли поигр+ать в зав+алинку?"],["Может быть сыграем в завалинку?","М+ожет быть сыгр+аем в зав+алинку?"],"Я хочу поиграть с тобой в завалинку","Я хочу поигр+ать с тоб+ой в зав+алинку!"])
+        response.set_text(hello[0])
+        response.set_tts(hello[1])
         response.set_buttons(buttons)
         return response, user_storage
     answered = False
@@ -49,10 +52,16 @@ def handle_dialog(request, response, user_storage):
             if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = "Пр+авильно! Сл+едующий вопр+ос: "
+                otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
+                user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
+                user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Сл+едующий вопр+ос: "
                 user_storage[request.user_id]["score"]+=1
             else:
                 user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
                 user_storage[request.user_id]["textToSpeech"] = "Непр+авильно, это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
+                otvet = random.choice([["Неправильно!","Непр+авильно!"],["Неверно!","Нев+ерно!"],["Вы ошиблись!","Вы ош+иблись!"]])
+                user_storage[request.user_id]["text"] = otvet[0]+" Это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
+                user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
 
         word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
