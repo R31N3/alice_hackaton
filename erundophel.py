@@ -1,17 +1,21 @@
 from __future__ import unicode_literals
 import random, json
 import database_module
-
 def read_data():
     with open("words.json", encoding="utf-8") as file:
         data = json.loads(file.read())
         return data
-
+def read_answers_data():
+    with open("alice_answers.json", encoding="utf-8") as file:
+        data = json.loads(file.read())
+        return data
+aliceAnswers = read_answers_data()
+def aliceSpeakMap(myAns,withAccent=False):
+    if(withAccent): return  myAns.strip()
+    else: return myAns.replace("+","").strip()
 def map_answer(myAns,withAccent=False):
-    res = myAns
     if(withAccent): return  myAns.replace(".", "").replace(";","").strip()
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
-
 def saveResult(resultData): #Функция для сохранения результата (возвращает True если успешно)
     return True
 
@@ -67,8 +71,12 @@ def handle_dialog(request, response, user_storage):
                     user_storage[request.user_id]["answer"] = e[0]
                     break
         else:
-            response.set_text(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
-            response.set_tts(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы зараб+отали {} баллов. Предлаг+аю сыграть ещё!".format(user_storage[request.user_id]["score"]))
+            choice = random.choice(aliceAnswers["winTextVariations"])
+            response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(user_storage[request.user_id]["score"]))
+            response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice,True).format(user_storage[request.user_id]["score"]))
+            buttons, user_storage = get_suggests(user_storage)
+            response.set_buttons(buttons)
+            del user_storage[request.user_id]
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
@@ -80,8 +88,9 @@ def handle_dialog(request, response, user_storage):
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
     if not answered:
-        response.set_text('Я жду ответа!')
-        response.set_tts('Я жду ответа!')
+        choice = random.choice(aliceAnswers["cantTranslate"])
+        response.set_text(aliceSpeakMap(choice))
+        response.set_tts(aliceSpeakMap(choice, True))
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
     return response, user_storage
