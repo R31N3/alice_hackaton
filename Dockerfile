@@ -6,4 +6,4 @@ COPY . /app
 EXPOSE 5000
 
 RUN pip install -r requirements.txt
-CMD FLASK_APP=alice_app.py flask run --host="::"
+CMD FLASK_APP=alice_app.py flask run --host="zavalinkalice.xyz"
