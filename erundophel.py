@@ -83,9 +83,15 @@ def handle_dialog(request, response, user_storage):
             choice = random.choice(aliceAnswers["winTextVariations"])
             response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(user_storage[request.user_id]["score"]))
             response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice,True).format(user_storage[request.user_id]["score"]))
+            user_storage = {
+                'suggests': [
+                    "Хорошо", "ОК",
+                    "А что это?",
+                ]
+            }
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
-            del user_storage[request.user_id]
+
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
