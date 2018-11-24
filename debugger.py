@@ -31,6 +31,7 @@ responce, userStorage = handle_dialog(DeRequest(True,id),stResponce,{})
 printResponce(responce)
 while True:
     res = input()
+    if(res == "/leave"): quit("Произошёл /leave...")
     stResponce = DeResponse()
     mRequest = DeRequest(False, id)
     mRequest.command = res

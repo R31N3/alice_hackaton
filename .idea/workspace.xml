@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="538d5176-aaec-4856-9160-a56b298c056e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debugger.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debugger.py" afterPath="$PROJECT_DIR$/debugger.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/erundophel.py" afterPath="$PROJECT_DIR$/erundophel.py" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
@@ -16,7 +16,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/IlyaP$debugger.coverage" NAME="debugger Coverage Results" MODIFIED="1543064669720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/IlyaP$debugger.coverage" NAME="debugger Coverage Results" MODIFIED="1543066078938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -27,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="erundophel.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="erundophel.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/erundophel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
+            <state relative-caret-position="827">
+              <caret line="55" column="34" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugger.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="debugger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debugger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+            <state relative-caret-position="636">
+              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -113,8 +113,8 @@
         <option value="$PROJECT_DIR$/yandex-lyceum-alice-hackathon/example.txt" />
         <option value="$PROJECT_DIR$/yandex-lyceum-alice-hackathon/.idea/modules.xml" />
         <option value="$PROJECT_DIR$/database_module.py" />
-        <option value="$PROJECT_DIR$/debugger.py" />
         <option value="$PROJECT_DIR$/erundophel.py" />
+        <option value="$PROJECT_DIR$/debugger.py" />
       </list>
     </option>
   </component>
@@ -694,21 +694,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/erundophel.py">
+    <entry file="file://$PROJECT_DIR$/debugger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="636">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debugger.py">
+    <entry file="file://$PROJECT_DIR$/erundophel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-          <folding />
+        <state relative-caret-position="827">
+          <caret line="55" column="34" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -34,13 +34,15 @@ def handle_dialog(request, response, user_storage):
         response.set_tts('Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!')
         response.set_buttons(buttons)
         return response, user_storage
-
-    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен'] and not user_storage.get(request.user_id):
+    answered = False
+    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да'] and not user_storage.get(request.user_id):
+        answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
 
     if user_storage.get(request.user_id):
+        answered = True
         if user_storage[request.user_id]["answer"]:
-            if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"]).lower():
+            if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = "Пр+авильно! Сл+едующий вопр+ос: "
                 user_storage[request.user_id]["score"]+=1
@@ -68,15 +70,20 @@ def handle_dialog(request, response, user_storage):
             response.set_text(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы заработали {} баллов. Предлагаю сыграть ещё!".format(user_storage[request.user_id]["score"]))
             response.set_tts(user_storage[request.user_id]["text"] + "ой! Это всё за эту игру. Вы зараб+отали {} баллов. Предлаг+аю сыграть ещё!".format(user_storage[request.user_id]["score"]))
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
+        answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
                           ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
                           ' Если Вы угадали, то вам насчитывается балл.')
         response.set_tts('Зав+алинка - это игра на интуинт+ивное знание слов. Я назыв+аю Вам слово, например,'
                                   ' Кукушл+яндия. Я предлагаю Вам ответы внизу, наприм+ер, страна кук+ушек.'
-                                  ' Если Вы угад+али, то вам насч+итывается балл.')        
+                                  ' Если Вы угад+али, то вам насч+итывается балл.')
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
-
+    if not answered:
+        response.set_text('Я жду ответа!')
+        response.set_tts('Я жду ответа!')
+        buttons, user_storage = get_suggests(user_storage)
+        response.set_buttons(buttons)
     return response, user_storage
 
 
