@@ -34,11 +34,9 @@ def handle_dialog(request, response, user_storage):
         }
 
         buttons, user_storage = get_suggests(user_storage)
-        response.set_text('Привет! Давай поиграем в Завалинку!')
-        response.set_tts('Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!')
-        hello = random.choice([['Привет! Давай поиграем в Завалинку!','Прив+ет! -  Дав+ай поигр+аем в Зав+алинку!'],["Не хочешь ли поиграть в завалинку?","Не х+очешь ли поигр+ать в зав+алинку?"],["Может быть сыграем в завалинку?","М+ожет быть сыгр+аем в зав+алинку?"],"Я хочу поиграть с тобой в завалинку","Я хочу поигр+ать с тоб+ой в зав+алинку!"])
-        response.set_text(hello[0])
-        response.set_tts(hello[1])
+        choice = random.choice(aliceAnswers["helloTextVariations"])
+        response.set_text(aliceSpeakMap(choice))
+        response.set_tts(aliceSpeakMap(choice,True))
         response.set_buttons(buttons)
         return response, user_storage
     answered = False
@@ -102,6 +100,12 @@ def handle_dialog(request, response, user_storage):
                                   ' Если Вы угад+али, то вам насч+итывается балл.')
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
+    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход']:
+        answered = True
+        choice = random.choice(aliceAnswers["quitTextVariations"])
+        response.set_text(aliceSpeakMap(choice))
+        response.set_tts(aliceSpeakMap(choice,True))
+        response.end_session = True
     if not answered:
         choice = random.choice(aliceAnswers["cantTranslate"])
         response.set_text(aliceSpeakMap(choice))
