@@ -103,9 +103,9 @@ def handle_dialog(request, response, user_storage, database, wrd):
         another_flag = True
         return response, user_storage
 
-    if user_storage.get(request.user_id) and not another_flag:
+    if user_storage.get(request.user_id):
         answered = True
-        if user_storage[request.user_id]["answer"]:
+        if user_storage[request.user_id]["answer"] and not another_flag:
             if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = "Пр+авильно! Сл+едующий вопр+ос: "
