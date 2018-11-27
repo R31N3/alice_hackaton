@@ -132,20 +132,18 @@ if __name__ == '__main__':
     main()
 
 
-def show_score(user_id):
+def show_score(base, user_id):
     # base = DatabaseManager()
-    # entry = base.get_entry(user_id)
-    entry = [(1, 'goshan.chamor@yandex.5gru', 21)]
+    entry = base.get_entry(user_id)[0][2]
     print('Счет пользователя {} равен {}.'.format(entry[0][1], entry[0][2]))
     return entry
 
 
-def show_leaderboard(top_number):
+def show_leaderboard(base, top_number):
     # base = DatabaseManager()
-    # entries = base.get_all_entries()
-    entries = [(1, 'goshan.chamor@yandex.ru', 21), (3, 'dimalox@yandex.ru', 7)]
+    entries = base.get_all_entries()
     if top_number > len(entries):
         top_number = len(entries)
     entries = sorted([entry[::-1] for entry in entries], reverse=True)
-    for i in range(top_number):
-        print('{0}.{1}: {2}'.format(i+1, entries[i][1], entries[i][0]))
+    lst = [{entries[i][1]:entries[i][2]} for i in range(top_number)]
+    return lst
