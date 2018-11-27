@@ -49,19 +49,16 @@ def handle_dialog(request, response, user_storage, database):
             choice = random.choice(aliceAnswers["thanksVariations"])
             response.set_text(aliceSpeakMap(choice))
             response.set_tts(aliceSpeakMap(choice, True))
-            user_storage['suggests'] = ["Таблица лидеров"]
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
-            return response, user_storage
-        else:
             user_storage['suggests']= [
                 "Хорошо","ОК",
                 "А что это?",
             ]
             buttons, user_storage = get_suggests(user_storage)
-            choice = random.choice(aliceAnswers["helloTextVariations"])
-            response.set_text(aliceSpeakMap("Прив+ет!"+choice))
-            response.set_tts(aliceSpeakMap("Прив+ет!"+choice,True))
+            choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize
+            response.set_text(aliceSpeakMap(choice))
+            response.set_tts(aliceSpeakMap(choice,True))
             response.set_buttons(buttons)
             flag = False
             return response, user_storage
