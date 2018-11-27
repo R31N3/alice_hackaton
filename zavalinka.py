@@ -24,20 +24,35 @@ def map_answer(myAns,withAccent=False):
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
 
 
-def handle_dialog(request, response, user_storage, database):
-    if request.is_new_session:
-        user_storage = {
-            'suggests': [
-                "Хорошо","ОК",
-                "А что это?",
-            ], 'play_times':0,'name':"",'total_score':0,"asking_name":False
-        }
-        buttons, user_storage = get_suggests(user_storage)
-        choice = random.choice(aliceAnswers["helloTextVariations"])
-        response.set_text(aliceSpeakMap("Прив+ет!"+choice))
-        response.set_tts(aliceSpeakMap("Прив+ет!"+choice,True))
-        response.set_buttons(buttons)
-        return response, user_storage
+def handle_dialog(request, response, user_storage, database, flag = True):
+    if request.is_new_session or flag:
+        if user_storage["asking_name"]:
+            answered = False
+
+            user_storage["asking_name"] = False
+            user_storage["name"] = request.command.split(" ")[0]
+            database.add_user(request.user_id, user_storage["name"])
+            database.update_score(request.user_id, 0)
+            choice = random.choice(aliceAnswers["thanksVariations"])
+            response.set_text(aliceSpeakMap(choice))
+            response.set_tts(aliceSpeakMap(choice, True))
+            user_storage['suggests'] = ["Таблица лидеров"]
+            buttons, user_storage = get_suggests(user_storage)
+            response.set_buttons(buttons)
+        else:
+            user_storage = {
+                'suggests': [
+                    "Хорошо","ОК",
+                    "А что это?",
+                ], 'play_times':0,'name':"",'total_score':0,"asking_name":False
+            }
+            buttons, user_storage = get_suggests(user_storage)
+            choice = random.choice(aliceAnswers["helloTextVariations"])
+            response.set_text(aliceSpeakMap("Прив+ет!"+choice))
+            response.set_tts(aliceSpeakMap("Прив+ет!"+choice,True))
+            response.set_buttons(buttons)
+            flag = False
+            return response, user_storage
     answered = False
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
