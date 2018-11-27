@@ -17,11 +17,12 @@ def aliceSpeakMap(myAns,withAccent=False):
 def map_answer(myAns,withAccent=False):
     if(withAccent): return  myAns.replace(".", "").replace(";","").strip()
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
-def saveResult(resultData): #Функция для сохранения результата (возвращает True если успешно)
+
+def saveResult(player,score): #Функция для сохранения результата (возвращает True если успешно)
     return True
 
 
-def getAllResults(): #Функция для получения всех результатов из данных (возвращает результаты по типу [{"Имя":очки},{"Имя2":очки}])
+def getAllResults(): #Функция для получения всех результатов из данных (возвращает результаты по типу [{"Name":имя,"Score":очки},{"Name":имя2,"Score":очки2}])
     return []
 
 
@@ -31,7 +32,7 @@ def handle_dialog(request, response, user_storage):
             'suggests': [
                 "Хорошо","ОК",
                 "А что это?",
-            ]
+            ], 'play_times':0
         }
 
         buttons, user_storage = get_suggests(user_storage)
@@ -41,7 +42,7 @@ def handle_dialog(request, response, user_storage):
         response.set_buttons(buttons)
         return response, user_storage
     answered = False
-    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да'] and not user_storage.get(request.user_id):
+    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
 
@@ -80,16 +81,31 @@ def handle_dialog(request, response, user_storage):
                     break
         else:
             choice = random.choice(aliceAnswers["winTextVariations"])
-            response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(user_storage[request.user_id]["score"]))
-            response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice,True).format(user_storage[request.user_id]["score"]))
-            user_storage = {
-                'suggests': [
-                    "Хорошо", "ОК",
-                    "А что это?",
-                ]
-            }
-            buttons, user_storage = get_suggests(user_storage)
-            response.set_buttons(buttons)
+            if((user_storage["play_times"]+1)%3!=0):
+                response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(user_storage[request.user_id]["score"]))
+                response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice,True).format(user_storage[request.user_id]["score"]))
+                user_storage = {
+                    'suggests': [
+                        "Хорошо", "ОК","Согласен"
+                    ],'play_times':user_storage["play_times"]
+                }
+                buttons, user_storage = get_suggests(user_storage)
+                response.set_buttons(buttons)
+            else:
+                choice2 = random.choice(aliceAnswers["checkResultVariations"])
+                response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(
+                    user_storage[request.user_id]["score"])+aliceSpeakMap(choice2))
+                response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice, True).format(
+                    user_storage[request.user_id]["score"])+aliceSpeakMap(choice2))
+
+                user_storage = {
+                    'suggests': [
+                        "Не, играть хочу", "Таблица лидеров",
+                    ], 'play_times': user_storage["play_times"]
+                }
+                buttons, user_storage = get_suggests(user_storage)
+                response.set_buttons(buttons)
+            saveResult(request.user_id, int(user_storage[request.user_id]["score"])) #вставьте вместо user_id функцию, которая никнейм может брать.
 
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         answered = True
@@ -101,6 +117,23 @@ def handle_dialog(request, response, user_storage):
                                   ' Если Вы угад+али, то вам насч+итывается балл.')
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
+    if "таблица лидер" in request.command.lower().strip("?!."):
+        answered = True
+        choice = random.choice(aliceAnswers["resultsShowVariations"])
+        results = list(sorted(getAllResults(),key=lambda x:x["Score"]))[::-1]
+        resultsText = "\n"
+        for i in range(len(results[:10])):
+            resultsText+=str(i+1)+"место: "+results[i]["Name"]+" ("+str(results[i]["Score"])+" очков)\n"
+        for i in range(len(results)):
+            if(results[i]["Name"]==request.user_id):
+                resultsText+="А вы на "+str(i+1)+" месте со счётом "+str(results[i]["Score"])+"!" # вставьте вместо user_id функцию, которая никнейм может брать. ы.
+                break
+        response.set_text(aliceSpeakMap(choice+resultsText))
+        response.set_tts(aliceSpeakMap(choice+resultsText,True))
+        user_storage["suggests"] = ["хорошо", "ок"]
+        buttons, user_storage = get_suggests(user_storage)
+        response.set_buttons(buttons)
+
     if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход']:
         answered = True
         choice = random.choice(aliceAnswers["quitTextVariations"])

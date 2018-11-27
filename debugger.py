@@ -1,4 +1,4 @@
-from erundophel import *
+from zavalinka import *
 class DeRequest():
     def __init__(self,isNewSession,userID):
         self.is_new_session = isNewSession
