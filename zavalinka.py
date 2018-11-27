@@ -28,6 +28,7 @@ def map_answer(myAns,withAccent=False):
 
 def handle_dialog(request, response, user_storage, database):
     global flag
+    suggests = []
     answered = False
     if request.is_new_session or flag:
         answered = True
