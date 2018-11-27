@@ -132,7 +132,7 @@ def handle_dialog(request, response, user_storage, database, flag = False):
         response.set_buttons(buttons)
     if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
         answered = True
-        if user_storage["asking_name"]:
+        if user_storage["name"]:
             choice = random.choice(aliceAnswers["resultsShowVariations"])
             results = database_module.show_leaderboard(database, 10)
             resultsText = "\n"
