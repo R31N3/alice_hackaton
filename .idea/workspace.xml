@@ -33,8 +33,8 @@
       <file leaf-file-name="zavalinka.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/zavalinka.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="81" column="99" lean-forward="true" selection-start-line="81" selection-start-column="99" selection-end-line="81" selection-end-column="99" />
+            <state relative-caret-position="187">
+              <caret line="81" column="96" lean-forward="false" selection-start-line="81" selection-start-column="96" selection-end-line="81" selection-end-column="96" />
               <folding />
             </state>
           </provider>
@@ -552,7 +552,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543354390465</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="FIX">
+      <created>1543355335737</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1543355335737</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -662,8 +669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zavalinka.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="81" column="99" lean-forward="true" selection-start-line="81" selection-start-column="99" selection-end-line="81" selection-end-column="99" />
+        <state relative-caret-position="187">
+          <caret line="81" column="96" lean-forward="false" selection-start-line="81" selection-start-column="96" selection-end-line="81" selection-end-column="96" />
           <folding />
         </state>
       </provider>
