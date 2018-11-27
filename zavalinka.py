@@ -76,7 +76,7 @@ def handle_dialog(request, response, user_storage, database):
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Сл+едующий вопр+ос: "
-                database.update_score(request.user_id, database.get_entry(request.user_id)+1)
+                database.update_score(request.user_id, database_module.show_score(database,request.user_id)+1)
             else:
                 user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
                 user_storage[request.user_id]["textToSpeech"] = "Непр+авильно, это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
