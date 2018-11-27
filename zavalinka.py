@@ -38,7 +38,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             "asking_name":True,
             'play_times':0,'total_score':0
         }
-        if user_storage["asking_name"] and not database.get_entry(request.user_id):
+        if user_storage["asking_name"] and (not database.get_entry(request.user_id) and request.is_new_session):
             if request.is_new_session:
                 flag = True
                 answered = True
@@ -70,7 +70,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         another_flag = True
         flag = True
         response.set_text("Вы хотели меня провести, а я вас помню!")
-        response.set_text("Вы хот+ели мен+я провест+и, а я вас п+омню!")
+        response.set_tts("Вы хот+ели мен+я провест+и, а я вас п+омню!")
         user_storage['suggests'] = ['Ну ладно :С']
         return response, user_storage
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
