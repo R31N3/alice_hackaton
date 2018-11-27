@@ -172,5 +172,7 @@ def get_suggests(user_storage):
             {'title': suggest, 'hide': True}
             for suggest in user_storage['suggests']
         ]
+    else:
+        suggest = []
 
     return suggests, user_storage
