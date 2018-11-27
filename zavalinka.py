@@ -119,7 +119,7 @@ def handle_dialog(request, response, user_storage, database):
     if "таблица лидер" in request.command.lower().strip("?!."):
         answered = True
         choice = random.choice(aliceAnswers["resultsShowVariations"])
-        results = database_module.show_leaderboard(10)
+        results = database_module.show_leaderboard(database, 10)
         resultsText = "\n"
         for i in range(len(results[:10])):
             resultsText+=str(i+1)+"место: "+results[i]["Name"]+" ("+str(results[i]["Score"])+" очков)\n"
