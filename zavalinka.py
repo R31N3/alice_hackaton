@@ -26,6 +26,12 @@ def map_answer(myAns,withAccent=False):
 
 def handle_dialog(request, response, user_storage, database, flag = True):
     if request.is_new_session or flag:
+        user_storage = {
+            'suggests': [
+                "Хорошо","ОК",
+                "А что это?",
+            ], 'play_times':0,'name':"",'total_score':0,"asking_name":False
+        }
         if user_storage["asking_name"]:
             answered = False
 
@@ -40,12 +46,6 @@ def handle_dialog(request, response, user_storage, database, flag = True):
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
         else:
-            user_storage = {
-                'suggests': [
-                    "Хорошо","ОК",
-                    "А что это?",
-                ], 'play_times':0,'name':"",'total_score':0,"asking_name":False
-            }
             buttons, user_storage = get_suggests(user_storage)
             choice = random.choice(aliceAnswers["helloTextVariations"])
             response.set_text(aliceSpeakMap("Прив+ет!"+choice))
