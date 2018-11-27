@@ -16,6 +16,7 @@ from flask import Flask, request
 app = Flask(__name__)
 
 import database_module
+import pymorphy2
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -26,6 +27,7 @@ session_storage = {}
 # Задаем параметры приложения Flask.
 @app.route("/", methods=['POST'])
 def main():
+    morph = pymorphy2.MorphAnalyzer()
     database = database_module.DatabaseManager()
     # Функция получает тело запроса и возвращает ответ.
     alice_request = AliceRequest(request.json)
@@ -36,7 +38,7 @@ def main():
     user_id = alice_request.user_id
 
     alice_response, session_storage[user_id] = handle_dialog(
-        alice_request, alice_response, session_storage.get(user_id), database
+        alice_request, alice_response, session_storage.get(user_id), database, morph.parse('очко')[0]
     )
 
     logging.info('Response: {}'.format(alice_response))

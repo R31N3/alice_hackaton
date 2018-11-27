@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import random, json
 import database_module
+
 global flag
 flag = False
 
@@ -26,7 +27,7 @@ def map_answer(myAns,withAccent=False):
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
 
 
-def handle_dialog(request, response, user_storage, database):
+def handle_dialog(request, response, user_storage, database, wrd):
     global flag
 
     answered = False
@@ -90,7 +91,7 @@ def handle_dialog(request, response, user_storage, database):
         results = database_module.show_leaderboard(database, 10)
         resultsText = "\n"
         for i in range(len(results)):
-            resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" очков)\n"
+            resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
         resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
