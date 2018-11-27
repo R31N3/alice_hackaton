@@ -36,7 +36,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         answered = True
         user_storage = {
             "asking_name":True,
-            'play_times':0,'name':"",'total_score':0
+            'play_times':0,'total_score':0
         }
         if user_storage["asking_name"]:
             if request.is_new_session:
