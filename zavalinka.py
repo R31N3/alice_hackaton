@@ -97,10 +97,10 @@ def handle_dialog(request, response, user_storage, database, wrd):
         resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
+        another_flag = True
         user_storage["suggests"] = ["хорошо", "ок"]
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
-        another_flag = True
         return response, user_storage
 
     if user_storage.get(request.user_id):
@@ -123,7 +123,6 @@ def handle_dialog(request, response, user_storage, database, wrd):
         word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
         answer = list(map(lambda x:x[0],answers))
-        another_flag = False
         del user_storage[request.user_id]["words"][word]
         user_storage[request.user_id]["movesLeft"]-=1
         if user_storage[request.user_id]["movesLeft"] > 0:
@@ -157,6 +156,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 response.set_buttons(buttons)
             del user_storage[request.user_id]
             user_storage["total_score"]+=int(user_storage[request.user_id]["score"])
+        another_flag = False
         return response,user_storage
 
     if not answered:
