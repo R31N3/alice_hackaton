@@ -55,6 +55,7 @@ def handle_dialog(request, response, user_storage, database):
             user_storage['suggests']= [
                 "Хорошо","ОК",
                 "А что это?",
+                "Таблица лидеров"
             ]
             buttons, user_storage = get_suggests(user_storage)
             choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
@@ -136,7 +137,7 @@ def handle_dialog(request, response, user_storage, database):
             if((user_storage["play_times"]+1)%3!=0):
                 response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(user_storage[request.user_id]["score"]))
                 response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice,True).format(user_storage[request.user_id]["score"]))
-                user_storage['suggests'] = ["Хорошо","Ок","Согласен"]
+                user_storage['suggests'] = ["Хорошо","Ок","Согласен", "Таблица лидеров"]
 
                 buttons, user_storage = get_suggests(user_storage)
                 response.set_buttons(buttons)
@@ -167,7 +168,7 @@ def get_suggests(user_storage):
         suggests = [
             {'title': suggest, 'hide': True}
             for suggest in user_storage['suggests']
-        ]+["Таблица лидеров"]
+        ]
     else:
         suggests = []
 
