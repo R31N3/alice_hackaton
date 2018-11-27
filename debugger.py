@@ -1,4 +1,4 @@
-from erundophel import *
+from zavalinka import *
 class DeRequest():
     def __init__(self,isNewSession,userID):
         self.is_new_session = isNewSession
@@ -9,6 +9,7 @@ class DeResponse():
         self.text = ""
         self.tss = ""
         self.buttons = []
+        self.end_session = False
     def set_text(self,text):
         self.text = text
     def set_tts(self,text):
@@ -37,3 +38,4 @@ while True:
     mRequest.command = res
     responce, userStorage = handle_dialog(mRequest, stResponce, userStorage)
     printResponce(stResponce)
+    if(stResponce.end_session): quit("Выход из навыка")

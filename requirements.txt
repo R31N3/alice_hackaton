@@ -1,4 +1,1 @@
-click
-Flask
-Jinja2
-Werkzeug
+Flask==0.12.2
