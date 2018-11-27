@@ -167,9 +167,10 @@ def handle_dialog(request, response, user_storage, database, flag = False):
 
 
 def get_suggests(user_storage):
-    suggests = [
-        {'title': suggest, 'hide': True}
-        for suggest in user_storage['suggests']
-    ]
+    if "suggests" in user_storage.keys():
+        suggests = [
+            {'title': suggest, 'hide': True}
+            for suggest in user_storage['suggests']
+        ]
 
     return suggests, user_storage
