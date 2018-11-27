@@ -77,6 +77,12 @@ def handle_dialog(request, response, user_storage, database):
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
         return response, user_storage
+    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход'] and not answered:
+        answered = True
+        choice = random.choice(aliceAnswers["quitTextVariations"])
+        response.set_text(aliceSpeakMap(choice))
+        response.set_tts(aliceSpeakMap(choice,True))
+        response.end_session = True
     if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
         answered = True
         choice = random.choice(aliceAnswers["resultsShowVariations"])
@@ -146,13 +152,6 @@ def handle_dialog(request, response, user_storage, database):
             del user_storage[request.user_id]
             user_storage["total_score"]+=int(user_storage[request.user_id]["score"])
         return response,user_storage
-
-    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход'] and not answered:
-        answered = True
-        choice = random.choice(aliceAnswers["quitTextVariations"])
-        response.set_text(aliceSpeakMap(choice))
-        response.set_tts(aliceSpeakMap(choice,True))
-        response.end_session = True
 
     if not answered:
         choice = random.choice(aliceAnswers["cantTranslate"])
