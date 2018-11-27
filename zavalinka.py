@@ -2,31 +2,29 @@
 from __future__ import unicode_literals
 import random, json
 import database_module
+
 def read_data():
     with open("words.json", encoding="utf-8") as file:
         data = json.loads(file.read())
         return data
+
 def read_answers_data():
     with open("alice_answers.json", encoding="utf-8") as file:
         data = json.loads(file.read())
         return data
+
 aliceAnswers = read_answers_data()
+
 def aliceSpeakMap(myAns,withAccent=False):
     if(withAccent): return  myAns.strip()
     else: return myAns.replace("+","").strip()
+
 def map_answer(myAns,withAccent=False):
     if(withAccent): return  myAns.replace(".", "").replace(";","").strip()
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
 
-def saveResult(player,score): #Функция для сохранения результата (возвращает True если успешно)
-    return True
 
-
-def getAllResults(): #Функция для получения всех результатов из данных (возвращает результаты по типу [{"Name":имя,"Score":очки},{"Name":имя2,"Score":очки2}])
-    return []
-
-
-def handle_dialog(request, response, user_storage):
+def handle_dialog(request, response, user_storage, database):
     if request.is_new_session:
         user_storage = {
             'suggests': [
@@ -34,7 +32,9 @@ def handle_dialog(request, response, user_storage):
                 "А что это?",
             ], 'play_times':0
         }
-
+        if not database.get_entry(request.user_id):
+            database.add_user(request.user_id, 'goshan.chamor@yandex.ru')
+            database.update_score(request.user_id, 0)
         buttons, user_storage = get_suggests(user_storage)
         choice = random.choice(aliceAnswers["helloTextVariations"])
         response.set_text(aliceSpeakMap(choice))
@@ -55,7 +55,7 @@ def handle_dialog(request, response, user_storage):
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Сл+едующий вопр+ос: "
-                user_storage[request.user_id]["score"]+=1
+                database.update_score(request.user_id, database.get_entry(request.user_id)+1)
             else:
                 user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
                 user_storage[request.user_id]["textToSpeech"] = "Непр+авильно, это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
@@ -105,7 +105,6 @@ def handle_dialog(request, response, user_storage):
                 }
                 buttons, user_storage = get_suggests(user_storage)
                 response.set_buttons(buttons)
-            saveResult(request.user_id, int(user_storage[request.user_id]["score"])) #вставьте вместо user_id функцию, которая никнейм может брать.
 
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель']:
         answered = True
@@ -120,14 +119,11 @@ def handle_dialog(request, response, user_storage):
     if "таблица лидер" in request.command.lower().strip("?!."):
         answered = True
         choice = random.choice(aliceAnswers["resultsShowVariations"])
-        results = list(sorted(getAllResults(),key=lambda x:x["Score"]))[::-1]
+        results = database_module.show_leaderboard(database, 10)
         resultsText = "\n"
         for i in range(len(results[:10])):
             resultsText+=str(i+1)+"место: "+results[i]["Name"]+" ("+str(results[i]["Score"])+" очков)\n"
-        for i in range(len(results)):
-            if(results[i]["Name"]==request.user_id):
-                resultsText+="А вы на "+str(i+1)+" месте со счётом "+str(results[i]["Score"])+"!" # вставьте вместо user_id функцию, которая никнейм может брать. ы.
-                break
+        resultsText+="А вы имеете счёт"+database_module.show_score(database, request.user_id)+"!" # вставьте вместо user_id функцию, которая никнейм может брать. ы.
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
         user_storage["suggests"] = ["хорошо", "ок"]
