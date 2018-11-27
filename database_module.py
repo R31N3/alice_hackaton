@@ -134,6 +134,7 @@ if __name__ == '__main__':
 
 def show_score(base, user_id):
     # base = DatabaseManager()
+    # entry = [(1, 'goshan.chamor@yandex.ru', 21)]
     entry = base.get_entry(user_id)[0][2]
     print('Счет пользователя {} равен {}.'.format(entry[0][1], entry[0][2]))
     return entry

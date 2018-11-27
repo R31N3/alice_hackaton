@@ -102,10 +102,8 @@ def handle_dialog(request, response, user_storage, database):
 
         user_storage["asking_name"] = False
         user_storage["name"] = request.command.split(" ")[0]
-        #                  #                 #             #               # Смит обещал сделатьб
-        database.add_user(request.user_id, 'goshan.chamor@yandex.ru')
+        database.add_user(request.user_id, user_storage["name"])
         database.update_score(request.user_id, 0)
-        #                  #                 #             #               # Смит обещал сделатьб
         choice = random.choice(aliceAnswers["thanksVariations"])
         response.set_text(aliceSpeakMap(choice))
         response.set_tts(aliceSpeakMap(choice,True))
@@ -128,8 +126,8 @@ def handle_dialog(request, response, user_storage, database):
             choice = random.choice(aliceAnswers["resultsShowVariations"])
             results = database_module.show_leaderboard(database, 10)
             resultsText = "\n"
-            for i in range(len(results[:10])):
-                resultsText+=str(i+1)+"место: "+results[i]["Name"]+" ("+str(results[i]["Score"])+" очков)\n"
+            for i in range(len(results)):
+                resultsText+=str(i+1)+"место: "+str(results[i].keys())+" ("+str(results[i].values())+" очков)\n"
             resultsText+="А у вас счёт"+database_module.show_score(database, request.user_id)+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
             response.set_text(aliceSpeakMap(choice+resultsText))
             response.set_tts(aliceSpeakMap(choice+resultsText,True))
