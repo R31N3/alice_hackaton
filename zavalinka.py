@@ -31,10 +31,12 @@ def handle_dialog(request, response, user_storage, database, flag = False):
             'play_times':0,'name':"",'total_score':0
         }
         if user_storage["asking_name"]:
-            flag = True
-            answered = False
-            response.set_text(aliceSpeakMap("Как тебя зовут?"))
-            response.set_tts(aliceSpeakMap("Как тебя зовут?"))
+            if request.is_new_session:
+                flag = True
+                answered = False
+                response.set_text(aliceSpeakMap("Как тебя зовут?"))
+                response.set_tts(aliceSpeakMap("Как тебя зовут?"))
+                return response, user_storage
             user_storage["asking_name"] = False
             user_storage["name"] = request.command.split(" ")[0]
             database.add_user(request.user_id, user_storage["name"])
