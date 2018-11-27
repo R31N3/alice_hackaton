@@ -79,12 +79,13 @@ def handle_dialog(request, response, user_storage, database, wrd):
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
         return response, user_storage
-    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход'] and not answered:
+    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход'] and answered:
         answered = True
         choice = random.choice(aliceAnswers["quitTextVariations"])
         response.set_text(aliceSpeakMap(choice))
         response.set_tts(aliceSpeakMap(choice,True))
         response.end_session = True
+        return response, user_storage
     if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
         answered = True
         choice = random.choice(aliceAnswers["resultsShowVariations"])
@@ -92,7 +93,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         resultsText = "\n"
         for i in range(len(results)):
             resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
-        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
+        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"].lower())
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
         user_storage["suggests"] = ["хорошо", "ок"]
