@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 import random, json
 import database_module
 
-global flag
+global flag, another_flag
 flag = False
+another_flag = False
 
 def read_data():
     with open("words.json", encoding="utf-8") as file:
@@ -28,7 +29,7 @@ def map_answer(myAns,withAccent=False):
 
 
 def handle_dialog(request, response, user_storage, database, wrd):
-    global flag
+    global flag, another_flag
 
     answered = False
     if request.is_new_session or flag:
@@ -99,9 +100,10 @@ def handle_dialog(request, response, user_storage, database, wrd):
         user_storage["suggests"] = ["хорошо", "ок"]
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
+        another_flag = True
         return response, user_storage
 
-    if user_storage.get(request.user_id):
+    if user_storage.get(request.user_id) and not another_flag:
         answered = True
         if user_storage[request.user_id]["answer"]:
             if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
@@ -121,6 +123,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
         answer = list(map(lambda x:x[0],answers))
+        another_flag = False
         del user_storage[request.user_id]["words"][word]
         user_storage[request.user_id]["movesLeft"]-=1
         if user_storage[request.user_id]["movesLeft"] > 0:
