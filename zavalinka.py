@@ -79,7 +79,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
         return response, user_storage
-    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход']:
+    if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход', "не хочу", 'выйти']:
         answered = True
         choice = random.choice(aliceAnswers["quitTextVariations"])
         response.set_text(aliceSpeakMap(choice))
