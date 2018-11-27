@@ -28,7 +28,7 @@ def map_answer(myAns,withAccent=False):
 
 def handle_dialog(request, response, user_storage, database):
     global flag
-    suggests = []
+
     answered = False
     if request.is_new_session or flag:
         answered = True
@@ -174,6 +174,6 @@ def get_suggests(user_storage):
             for suggest in user_storage['suggests']
         ]
     else:
-        suggest = []
+        suggests = []
 
     return suggests, user_storage
