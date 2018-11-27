@@ -38,7 +38,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             "asking_name":True,
             'play_times':0,'total_score':0
         }
-        if user_storage["asking_name"] and (not database.get_entry(request.user_id) and request.is_new_session):
+        if user_storage["asking_name"] and not (database.get_entry(request.user_id) and request.is_new_session):
             if request.is_new_session:
                 flag = True
                 answered = True
@@ -46,10 +46,13 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 response.set_tts(aliceSpeakMap("Как тебя зовут?"))
                 return response, user_storage
             if "name" not in user_storage.keys():
-                user_storage["asking_name"] = False
-                user_storage["name"] = request.command.split(" ")[0]
-                database.add_user(request.user_id, user_storage["name"])
-                database.update_score(request.user_id, 0)
+                if not database.get_entry(request.user_id):
+                    user_storage["asking_name"] = False
+                    user_storage["name"] = request.command.split(" ")[0]
+                    database.add_user(request.user_id, user_storage["name"])
+                    database.update_score(request.user_id, 0)
+                else:
+                    user_storage["name"] = database_module.show_score(database, request.user_id)[1]
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             user_storage['suggests']= [
@@ -69,8 +72,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
             return response, user_storage
         another_flag = True
         flag = True
-        response.set_text("Вы хотели меня провести, а я вас помню!")
-        response.set_tts("Вы хот+ели мен+я провест+и, а я вас п+омню!")
+        response.set_text("А я вас помню!")
+        response.set_tts("А я вас п+омню!")
         user_storage['suggests'] = ['Ну ладно :С']
         return response, user_storage
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
@@ -101,7 +104,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         resultsText = "\n"
         for i in range(len(results)):
             resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
-        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
+        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[0])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
         another_flag = True
