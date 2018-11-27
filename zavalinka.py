@@ -173,6 +173,7 @@ def handle_dialog(request, response, user_storage, database, flag = False):
             response.set_buttons(buttons)
         return response, user_storage
     answered = False
+    return response
 
 
 def get_suggests(user_storage):
