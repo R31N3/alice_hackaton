@@ -24,17 +24,16 @@ def map_answer(myAns,withAccent=False):
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
 
 
-def handle_dialog(request, response, user_storage, database, flag = True):
+def handle_dialog(request, response, user_storage, database, flag = False):
     if request.is_new_session or flag:
         user_storage = {
-            'suggests': [
-                "Хорошо","ОК",
-                "А что это?",
-            ], 'play_times':0,'name':"",'total_score':0,"asking_name":False
+            'play_times':0,'name':"",'total_score':0,"asking_name":False
         }
         if user_storage["asking_name"]:
+            flag = True
             answered = False
-
+            response.set_text(aliceSpeakMap("Как тебя зовут?"))
+            response.set_tts(aliceSpeakMap("Как тебя зовут?"))
             user_storage["asking_name"] = False
             user_storage["name"] = request.command.split(" ")[0]
             database.add_user(request.user_id, user_storage["name"])
@@ -46,6 +45,10 @@ def handle_dialog(request, response, user_storage, database, flag = True):
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
         else:
+            user_storage['suggests']= [
+                "Хорошо","ОК",
+                "А что это?",
+            ]
             buttons, user_storage = get_suggests(user_storage)
             choice = random.choice(aliceAnswers["helloTextVariations"])
             response.set_text(aliceSpeakMap("Прив+ет!"+choice))
