@@ -32,11 +32,14 @@ class DatabaseManager:
                 })
             else:
                 print('Пользователь {} уже существует!'.format(user_id))
+                cursor.close()
+                return False
         except sqlite3.DatabaseError as error:
             print('Error: ', error)
         # else:
         #     self.connection.commit()
         cursor.close()
+        return True
 
     def update_score(self, user_id, add_to_the_score):
         print(threading.current_thread(), 'update_score')

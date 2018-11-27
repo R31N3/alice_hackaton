@@ -38,7 +38,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             "asking_name":True,
             'play_times':0,'total_score':0
         }
-        if user_storage["asking_name"]:
+        if user_storage["asking_name"] and not database.get_entry(request.user_id):
             if request.is_new_session:
                 flag = True
                 answered = True
@@ -67,6 +67,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
             response.set_buttons(buttons)
             flag = False
             return response, user_storage
+        another_flag = True
+        flag = True
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
