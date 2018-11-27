@@ -25,7 +25,9 @@ def map_answer(myAns,withAccent=False):
 
 
 def handle_dialog(request, response, user_storage, database, flag = False):
+    answered = False
     if request.is_new_session or flag:
+        answered = True
         user_storage = {
             "asking_name":True,
             'play_times':0,'name':"",'total_score':0
@@ -154,6 +156,7 @@ def handle_dialog(request, response, user_storage, database, flag = False):
         response.set_text(aliceSpeakMap(choice))
         response.set_tts(aliceSpeakMap(choice,True))
         response.end_session = True
+
     if not answered:
         choice = random.choice(aliceAnswers["cantTranslate"])
         response.set_text(aliceSpeakMap(choice))
