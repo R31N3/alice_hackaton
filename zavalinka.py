@@ -90,7 +90,7 @@ def handle_dialog(request, response, user_storage, database):
         results = database_module.show_leaderboard(database, 10)
         resultsText = "\n"
         for i in range(len(results)):
-            resultsText+=str(i+1)+"место: "+str(results[i].keys())+" ("+str(results[i].values())+" очков)\n"
+            resultsText+=str(i+1)+" место: "+results[i].keys()[0]+" ("+results[i].values()[0]+" очков)\n"
         resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
