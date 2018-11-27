@@ -33,8 +33,8 @@
       <file leaf-file-name="zavalinka.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/zavalinka.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="81" column="96" lean-forward="false" selection-start-line="81" selection-start-column="96" selection-end-line="81" selection-end-column="96" />
+            <state relative-caret-position="222">
+              <caret line="132" column="55" lean-forward="true" selection-start-line="132" selection-start-column="55" selection-end-line="132" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -70,6 +70,7 @@
       <find>suggests</find>
       <find>user_storage['suggests']</find>
       <find>место</find>
+      <find>user_storage[request.user_id]</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -559,7 +560,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543355335737</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="FIX">
+      <created>1543355552086</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1543355552086</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -669,8 +677,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zavalinka.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="81" column="96" lean-forward="false" selection-start-line="81" selection-start-column="96" selection-end-line="81" selection-end-column="96" />
+        <state relative-caret-position="222">
+          <caret line="132" column="55" lean-forward="true" selection-start-line="132" selection-start-column="55" selection-end-line="132" selection-end-column="55" />
           <folding />
         </state>
       </provider>
