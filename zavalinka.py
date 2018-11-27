@@ -76,25 +76,22 @@ def handle_dialog(request, response, user_storage, database):
                                   ' Если Вы угад+али, то вам насч+итывается балл.')
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
+        return response, user_storage
     if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
         answered = True
-        if user_storage["name"]:
-            choice = random.choice(aliceAnswers["resultsShowVariations"])
-            results = database_module.show_leaderboard(database, 10)
-            resultsText = "\n"
-            for i in range(len(results)):
-                resultsText+=str(i+1)+"место: "+str(results[i].keys())+" ("+str(results[i].values())+" очков)\n"
-            resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
-            response.set_text(aliceSpeakMap(choice+resultsText))
-            response.set_tts(aliceSpeakMap(choice+resultsText,True))
-            user_storage["suggests"] = ["хорошо", "ок"]
-            buttons, user_storage = get_suggests(user_storage)
-            response.set_buttons(buttons)
-        else:
-            choice = random.choice(aliceAnswers["askNameVariations"])
-            response.set_text(aliceSpeakMap(choice))
-            response.set_tts(aliceSpeakMap(choice, True))
-            user_storage["asking_name"] = True
+        choice = random.choice(aliceAnswers["resultsShowVariations"])
+        results = database_module.show_leaderboard(database, 10)
+        resultsText = "\n"
+        for i in range(len(results)):
+            resultsText+=str(i+1)+"место: "+str(results[i].keys())+" ("+str(results[i].values())+" очков)\n"
+        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id))+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
+        response.set_text(aliceSpeakMap(choice+resultsText))
+        response.set_tts(aliceSpeakMap(choice+resultsText,True))
+        user_storage["suggests"] = ["хорошо", "ок"]
+        buttons, user_storage = get_suggests(user_storage)
+        response.set_buttons(buttons)
+        return response, user_storage
+
     if user_storage.get(request.user_id):
         answered = True
         if user_storage[request.user_id]["answer"]:
@@ -171,7 +168,7 @@ def get_suggests(user_storage):
         suggests = [
             {'title': suggest, 'hide': True}
             for suggest in user_storage['suggests']
-        ]
+        ]+["Таблица лидеров"]
     else:
         suggests = []
 
