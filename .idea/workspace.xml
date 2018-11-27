@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4bee5f23-21a4-4c2f-a6c6-171eafd5fd60" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database_module.py" afterPath="$PROJECT_DIR$/database_module.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zavalinka.py" afterPath="$PROJECT_DIR$/zavalinka.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,8 +33,8 @@
       <file leaf-file-name="zavalinka.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/zavalinka.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="70" column="19" lean-forward="true" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
+            <state relative-caret-position="395">
+              <caret line="74" column="37" lean-forward="false" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -641,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543358294156</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Костыли-велосипеды 3">
+      <created>1543358949331</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1543358949331</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -676,7 +682,8 @@
     <MESSAGE value="FIX" />
     <MESSAGE value="Костыли-велосипеды" />
     <MESSAGE value="Костыли-велосипеды 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Костыли-велосипеды 2" />
+    <MESSAGE value="Костыли-велосипеды 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Костыли-велосипеды 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -753,8 +760,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zavalinka.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="70" column="19" lean-forward="true" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
+        <state relative-caret-position="395">
+          <caret line="74" column="37" lean-forward="false" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
           <folding />
         </state>
       </provider>

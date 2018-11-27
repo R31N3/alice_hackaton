@@ -69,6 +69,10 @@ def handle_dialog(request, response, user_storage, database, wrd):
             return response, user_storage
         another_flag = True
         flag = True
+        response.set_text("Вы хотели меня провести, а я вас помню!")
+        response.set_text("Вы хот+ели мен+я провест+и, а я вас п+омню!")
+        user_storage['suggests'] = ['Ну ладно :С']
+        return response, user_storage
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
