@@ -66,7 +66,35 @@ def handle_dialog(request, response, user_storage, database):
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
-
+    if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель'] and not answered:
+        answered = True
+        response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
+                          ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
+                          ' Если Вы угадали, то вам насчитывается балл.')
+        response.set_tts('Зав+алинка - это игра на интуинт+ивное знание слов. Я назыв+аю Вам слово, например,'
+                                  ' Кукушл+яндия. Я предлагаю Вам ответы внизу, наприм+ер, страна кук+ушек.'
+                                  ' Если Вы угад+али, то вам насч+итывается балл.')
+        buttons, user_storage = get_suggests(user_storage)
+        response.set_buttons(buttons)
+    if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
+        answered = True
+        if user_storage["name"]:
+            choice = random.choice(aliceAnswers["resultsShowVariations"])
+            results = database_module.show_leaderboard(database, 10)
+            resultsText = "\n"
+            for i in range(len(results)):
+                resultsText+=str(i+1)+"место: "+str(results[i].keys())+" ("+str(results[i].values())+" очков)\n"
+            resultsText+="А у вас счёт"+database_module.show_score(database, request.user_id)+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
+            response.set_text(aliceSpeakMap(choice+resultsText))
+            response.set_tts(aliceSpeakMap(choice+resultsText,True))
+            user_storage["suggests"] = ["хорошо", "ок"]
+            buttons, user_storage = get_suggests(user_storage)
+            response.set_buttons(buttons)
+        else:
+            choice = random.choice(aliceAnswers["askNameVariations"])
+            response.set_text(aliceSpeakMap(choice))
+            response.set_tts(aliceSpeakMap(choice, True))
+            user_storage["asking_name"] = True
     if user_storage.get(request.user_id):
         answered = True
         if user_storage[request.user_id]["answer"]:
@@ -121,35 +149,6 @@ def handle_dialog(request, response, user_storage, database):
             del user_storage[request.user_id]
             user_storage["total_score"]+=int(user_storage[request.user_id]["score"])
         return response,user_storage
-    if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель'] and not answered:
-        answered = True
-        response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
-                          ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
-                          ' Если Вы угадали, то вам насчитывается балл.')
-        response.set_tts('Зав+алинка - это игра на интуинт+ивное знание слов. Я назыв+аю Вам слово, например,'
-                                  ' Кукушл+яндия. Я предлагаю Вам ответы внизу, наприм+ер, страна кук+ушек.'
-                                  ' Если Вы угад+али, то вам насч+итывается балл.')
-        buttons, user_storage = get_suggests(user_storage)
-        response.set_buttons(buttons)
-    if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
-        answered = True
-        if user_storage["name"]:
-            choice = random.choice(aliceAnswers["resultsShowVariations"])
-            results = database_module.show_leaderboard(database, 10)
-            resultsText = "\n"
-            for i in range(len(results)):
-                resultsText+=str(i+1)+"место: "+str(results[i].keys())+" ("+str(results[i].values())+" очков)\n"
-            resultsText+="А у вас счёт"+database_module.show_score(database, request.user_id)+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"])
-            response.set_text(aliceSpeakMap(choice+resultsText))
-            response.set_tts(aliceSpeakMap(choice+resultsText,True))
-            user_storage["suggests"] = ["хорошо", "ок"]
-            buttons, user_storage = get_suggests(user_storage)
-            response.set_buttons(buttons)
-        else:
-            choice = random.choice(aliceAnswers["askNameVariations"])
-            response.set_text(aliceSpeakMap(choice))
-            response.set_tts(aliceSpeakMap(choice, True))
-            user_storage["asking_name"] = True
 
     if request.command.lower().strip("?!.") in ['нет', 'не хочется', 'в следующий раз', 'выход'] and not answered:
         answered = True
