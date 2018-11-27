@@ -27,7 +27,6 @@ session_storage = {}
 @app.route("/", methods=['POST'])
 def main():
     database = database_module.DatabaseManager()
-    global database
     # Функция получает тело запроса и возвращает ответ.
     alice_request = AliceRequest(request.json)
     logging.info('Request: {}'.format(alice_request))
