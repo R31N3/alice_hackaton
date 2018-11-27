@@ -118,19 +118,6 @@ def handle_dialog(request, response, user_storage, database, flag = False):
             del user_storage[request.user_id]
             user_storage["total_score"]+=int(user_storage[request.user_id]["score"])
         return response,user_storage
-    if user_storage["asking_name"]:
-        answered = False
-
-        user_storage["asking_name"] = False
-        user_storage["name"] = request.command.split(" ")[0]
-        database.add_user(request.user_id, user_storage["name"])
-        database.update_score(request.user_id, 0)
-        choice = random.choice(aliceAnswers["thanksVariations"])
-        response.set_text(aliceSpeakMap(choice))
-        response.set_tts(aliceSpeakMap(choice,True))
-        user_storage['suggests'] = ["Таблица лидеров"]
-        buttons, user_storage = get_suggests(user_storage)
-        response.set_buttons(buttons)
     if request.command.lower().strip("?!.") in ['а что это', 'чего', 'всмысле', 'что такое ерундопель'] and not answered:
         answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
