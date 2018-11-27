@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 import random, json
 import database_module
+global flag
+flag = False
 
 def read_data():
     with open("words.json", encoding="utf-8") as file:
@@ -24,7 +26,8 @@ def map_answer(myAns,withAccent=False):
     else: return myAns.replace(".", "").replace(";", "").replace("+","").strip()
 
 
-def handle_dialog(request, response, user_storage, database, flag = False):
+def handle_dialog(request, response, user_storage, database):
+    global flag
     answered = False
     if request.is_new_session or flag:
         answered = True
