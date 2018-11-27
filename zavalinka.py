@@ -57,7 +57,7 @@ def handle_dialog(request, response, user_storage, database):
                 "А что это?",
             ]
             buttons, user_storage = get_suggests(user_storage)
-            choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize
+            choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             response.set_text(aliceSpeakMap(choice))
             response.set_tts(aliceSpeakMap(choice,True))
             response.set_buttons(buttons)
