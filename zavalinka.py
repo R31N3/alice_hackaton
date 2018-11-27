@@ -45,13 +45,11 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 response.set_text(aliceSpeakMap("Как тебя зовут?"))
                 response.set_tts(aliceSpeakMap("Как тебя зовут?"))
                 return response, user_storage
-            user_storage["asking_name"] = False
-            user_storage["name"] = request.command.split(" ")[0]
-            database.add_user(request.user_id, user_storage["name"])
-            database.update_score(request.user_id, 0)
-            choice = random.choice(aliceAnswers["thanksVariations"])
-            response.set_text(aliceSpeakMap(choice))
-            response.set_tts(aliceSpeakMap(choice, True))
+            if "name" not in user_storage.keys():
+                user_storage["asking_name"] = False
+                user_storage["name"] = request.command.split(" ")[0]
+                database.add_user(request.user_id, user_storage["name"])
+                database.update_score(request.user_id, 0)
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             user_storage['suggests']= [
@@ -60,7 +58,10 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 "Таблица лидеров"
             ]
             buttons, user_storage = get_suggests(user_storage)
-            choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
+            if not another_flag:
+                choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
+            else:
+                choice = random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             response.set_text(aliceSpeakMap(choice))
             response.set_tts(aliceSpeakMap(choice,True))
             response.set_buttons(buttons)
@@ -98,7 +99,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True))
         another_flag = True
-        user_storage["suggests"] = ["хорошо", "ок"]
+        flag = True
+        user_storage["suggests"] = ["К началу"]
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
         return response, user_storage
