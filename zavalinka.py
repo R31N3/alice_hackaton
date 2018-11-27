@@ -27,6 +27,7 @@ def map_answer(myAns,withAccent=False):
 def handle_dialog(request, response, user_storage, database, flag = False):
     if request.is_new_session or flag:
         user_storage = {
+            "asking_name":True,
             'play_times':0,'name':"",'total_score':0,"asking_name":False
         }
         if user_storage["asking_name"]:
