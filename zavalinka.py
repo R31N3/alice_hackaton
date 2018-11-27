@@ -33,7 +33,7 @@ def handle_dialog(request, response, user_storage, database, flag = False):
         if user_storage["asking_name"]:
             if request.is_new_session:
                 flag = True
-                answered = False
+                answered = True
                 response.set_text(aliceSpeakMap("Как тебя зовут?"))
                 response.set_tts(aliceSpeakMap("Как тебя зовут?"))
                 return response, user_storage
@@ -60,7 +60,6 @@ def handle_dialog(request, response, user_storage, database, flag = False):
             response.set_buttons(buttons)
             flag = False
             return response, user_storage
-    answered = False
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
@@ -144,7 +143,7 @@ def handle_dialog(request, response, user_storage, database, flag = False):
         response.set_buttons(buttons)
     if "таблица лидер" in request.command.lower().strip("?!.") or request.command.lower().strip("?!.") in ["посмотреть"]:
         answered = True
-        if name:
+        if user_storage["asking_name"]:
             choice = random.choice(aliceAnswers["resultsShowVariations"])
             results = database_module.show_leaderboard(database, 10)
             resultsText = "\n"
