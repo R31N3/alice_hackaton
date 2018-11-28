@@ -125,8 +125,12 @@ def handle_dialog(request, response, user_storage, database, wrd):
             resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
         if user_storage["name"]:
             resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[1])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
-        response.set_text(aliceSpeakMap(choice+resultsText))
-        response.set_tts(aliceSpeakMap(choice+resultsText,True)+" Доступные команды: К началу")
+        if results:
+            response.set_text(aliceSpeakMap(choice+resultsText))
+            response.set_tts(aliceSpeakMap(choice+resultsText,True)+" Доступные команды: К началу")
+        else:
+            response.set_text("В данный момент в игре нет лидеров.")
+            response.set_tts("В данный момент в игре нет лидеров. Доступные команды: К началу")
         another_flag = True
         flag = True
         user_storage["suggests"] = ["К началу"]
