@@ -33,8 +33,8 @@
       <file leaf-file-name="zavalinka.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/zavalinka.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-144">
-              <caret line="74" column="48" lean-forward="false" selection-start-line="74" selection-start-column="48" selection-end-line="74" selection-end-column="48" />
+            <state relative-caret-position="208">
+              <caret line="63" column="74" lean-forward="false" selection-start-line="63" selection-start-column="74" selection-end-line="63" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -304,13 +304,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543343351074</updated>
-    </task>
-    <task id="LOCAL-00009" summary="fixes">
-      <created>1543346214523</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1543346214523</updated>
     </task>
     <task id="LOCAL-00010" summary="fixes">
       <created>1543346304355</created>
@@ -648,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543406028238</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Костыли-велосипеды - перезагрузка 4 ака MicroFix">
+      <created>1543406422646</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1543406422646</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -688,7 +688,8 @@
     <MESSAGE value="Костыли-велосипеды - перезагрузка" />
     <MESSAGE value="Костыли-велосипеды - перезагрузка 2" />
     <MESSAGE value="Костыли-велосипеды - перезагрузка 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Костыли-велосипеды - перезагрузка 3" />
+    <MESSAGE value="Костыли-велосипеды - перезагрузка 4 ака MicroFix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Костыли-велосипеды - перезагрузка 4 ака MicroFix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -833,8 +834,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zavalinka.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
-          <caret line="74" column="48" lean-forward="false" selection-start-line="74" selection-start-column="48" selection-end-line="74" selection-end-column="48" />
+        <state relative-caret-position="208">
+          <caret line="63" column="74" lean-forward="false" selection-start-line="63" selection-start-column="74" selection-end-line="63" selection-end-column="74" />
           <folding />
         </state>
       </provider>

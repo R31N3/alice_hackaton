@@ -61,7 +61,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             ]
             buttons, user_storage = get_suggests(user_storage)
             if not another_flag:
-                choice = random.choice(aliceAnswers["thanksVariations"]) + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
+                choice = random.choice(aliceAnswers["thanksVariations"])+ " " + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             else:
                 choice = random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             response.set_text(aliceSpeakMap(choice))
@@ -77,7 +77,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
-    if request.command.lower().strip("?!.") in ['а что это', 'чего', 'в смысле', 'что такое ерундопель'] and not answered:
+    if request.command.lower().strip("?!.") in ['а что это', 'чего', 'в смысле', 'что такое ерундопель', "что"] and not answered:
         answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
                           ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
