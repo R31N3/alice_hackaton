@@ -56,7 +56,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             response.set_buttons(buttons)
             user_storage['suggests']= [
                 "Хорошо",
-                "А что это?",
+                "Помощь",
                 "Таблица лидеров"
             ]
             buttons, user_storage = get_suggests(user_storage)
@@ -77,7 +77,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
-    if request.command.lower().strip("?!.") in ['а что это', 'чего', 'в смысле', 'что такое ерундопель', "что"] and not answered:
+    if request.command.lower().strip("?!.") in ['помощь', 'что ты умеешь?','а что это', 'чего', 'в смысле',
+                                                'что такое ерундопель', "что", 'что это такое'] and not answered:
         answered = True
         response.set_text('Завалинка - это игра на интуинтивное знание слов. Я называю Вам слово, например,'
                           ' Кукушляндия. Я предлагаю Вам ответы внизу, например, страна кукушек.'
@@ -125,7 +126,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = win_sound + otvet[1]+" Сл+едующий вопр+ос: "
-                database.update_score(request.user_id, database_module.show_score(database,request.user_id)[1]+1)
+                database.update_score(request.user_id, database_module.show_score(database,1))
             else:
                 failure_sound = random.choice(['<speaker audio="alice-sounds-game-loss-1.opus"> ',
                                                '<speaker audio="alice-sounds-game-loss-2.opus"> '])
