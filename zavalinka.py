@@ -65,7 +65,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             else:
                 choice = random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             response.set_text(aliceSpeakMap(choice))
-            response.set_tts(aliceSpeakMap(choice,True)+"Доступные команды: "+", ".join(user_storage["suggests"]))
+            response.set_tts(aliceSpeakMap(choice,True))
             response.set_buttons(buttons)
             flag = False
             return response, user_storage
