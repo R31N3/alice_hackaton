@@ -67,7 +67,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             user_storage['suggests']= [
-                "Хорошо",
+                "Давай",
                 "Помощь",
                 "Таблица лидеров"
             ]
