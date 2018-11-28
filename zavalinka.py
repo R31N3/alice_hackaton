@@ -50,6 +50,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
                                                 "таблице лидеров, мне потребуется твой никнейм. Как тебя зовут? Ты"
                                                "можешь сказать свое имя или же произнести команду 'Не представляться'"))
                 user_storage['suggests'] = ["Не представляться"]
+                buttons, user_storage = get_suggests(user_storage)
+                response.set_buttons(buttons)
                 return response, user_storage
             if "name" not in user_storage.keys():
                 if not database.get_entry(request.user_id):
@@ -86,7 +88,11 @@ def handle_dialog(request, response, user_storage, database, wrd):
         flag = True
         response.set_text("Здравствуй, а я тебя помню!")
         response.set_tts("Здравствуй, а я тебя п+омню!")
+        user_storage['suggests'] = ["И я тебя!"]
+        buttons, user_storage = get_suggests(user_storage)
+        response.set_buttons(buttons)
         return response, user_storage
+
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
