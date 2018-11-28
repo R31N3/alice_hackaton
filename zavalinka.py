@@ -127,7 +127,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 user_storage[request.user_id]["textToSpeech"] = win_sound + otvet[1]+" Сл+едующий вопр+ос: "
                 database.update_score(request.user_id, database_module.show_score(database,request.user_id)[1]+1)
             else:
-                failure_sound = random.choice(['<speaker audio="alice-sounds-game-win-3.opus"> ',
+                failure_sound = random.choice(['<speaker audio="alice-sounds-game-loss-1.opus"> ',
                                                '<speaker audio="alice-sounds-game-loss-2.opus"> '])
                 user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
                 user_storage[request.user_id]["textToSpeech"] = "Непр+авильно, это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
