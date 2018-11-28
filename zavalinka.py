@@ -41,8 +41,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
             if request.is_new_session:
                 flag = True
                 answered = True
-                response.set_text(aliceSpeakMap("Добрый день! Как вас зовут?"))
-                response.set_tts(aliceSpeakMap("Добрый день! Как вас зовут?"))
+                response.set_text(aliceSpeakMap("Добрый день! Как тебя зовут?"))
+                response.set_tts(aliceSpeakMap("Добрый день! Как тебя зовут?"))
                 return response, user_storage
             if "name" not in user_storage.keys():
                 if not database.get_entry(request.user_id):
@@ -71,8 +71,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
             return response, user_storage
         another_flag = True
         flag = True
-        response.set_text("Здравствуйте, а я вас помню!")
-        response.set_tts("Здравствуйте, а я вас п+омню!")
+        response.set_text("Здравствуйте, а я тебя помню!")
+        response.set_tts("Здравствуйте, а я тебя п+омню!")
         return response, user_storage
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
