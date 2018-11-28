@@ -93,7 +93,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
         response.set_buttons(buttons)
         return response, user_storage
 
-    if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
+    if request.command.lower() in ['давай','ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
         user_storage[request.user_id] = {"movesLeft": random.randint(15, 25), "text": "Начинаем! ","textToSpeech":"Начин+аем!", "words":read_data(),"answer":"","score":0}
     if request.command.lower().strip("?!.") in ['помощь', 'что ты умеешь?','а что это', 'чего', 'в смысле',
