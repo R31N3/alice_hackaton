@@ -118,17 +118,22 @@ def handle_dialog(request, response, user_storage, database, wrd):
         if user_storage[request.user_id]["answer"] and not another_flag:
             if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
+                win_sound = random.choice(['<speaker audio="alice-sounds-game-win-1.opus ">',
+                                           '<speaker audio="alice-sounds-game-win-2.opus ">',
+                                           '<speaker audio="alice-sounds-game-win-3.opus ">'])
                 user_storage[request.user_id]["textToSpeech"] = "Пр+авильно! Сл+едующий вопр+ос: "
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
-                user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Сл+едующий вопр+ос: "
+                user_storage[request.user_id]["textToSpeech"] = win_sound + otvet[1]+" Сл+едующий вопр+ос: "
                 database.update_score(request.user_id, database_module.show_score(database,request.user_id)[1]+1)
             else:
+                failure_sound = random.choice(['<speaker audio="alice-sounds-game-win-3.opus"> ',
+                                               '<speaker audio="alice-sounds-game-loss-2.opus"> '])
                 user_storage[request.user_id]["text"] = "Неправильно, это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
                 user_storage[request.user_id]["textToSpeech"] = "Непр+авильно, это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
                 otvet = random.choice([["Неправильно!","Непр+авильно!"],["Неверно!","Нев+ерно!"],["Вы ошиблись!","Вы ош+иблись!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Это {}. Следующий вопрос: ".format(map_answer(user_storage[request.user_id]["answer"]))
-                user_storage[request.user_id]["textToSpeech"] = otvet[1]+" Это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
+                user_storage[request.user_id]["textToSpeech"] =failure_sound + otvet[1]+" Это {}. Сл+едующий вопр+ос: ".format(map_answer(user_storage[request.user_id]["answer"],True))
 
         word = random.choice(list(user_storage[request.user_id]["words"].keys()))
         answers = user_storage[request.user_id]["words"][word]
