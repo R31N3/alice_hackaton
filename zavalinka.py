@@ -41,15 +41,25 @@ def handle_dialog(request, response, user_storage, database, wrd):
             if request.is_new_session:
                 flag = True
                 answered = True
-                response.set_text(aliceSpeakMap("Добрый день! Как тебя зовут?"))
-                response.set_tts(aliceSpeakMap("Добрый день! Как тебя зовут?"))
+                response.set_text(aliceSpeakMap("Вас приветствует игра Завалинка. Я буду называть слова, а вы - "
+                                                "угадывать и значения. Для того, чтобы следить за своими успехами в "
+                                                "таблице лидеров, мне потребуется твой никнейм. Как тебя зовут?"))
+
+                response.set_tts(aliceSpeakMap("Тебя приветствует игра Завалинка. Я буду называть слова, а ты - "
+                                                "угадывать и значения. Для того, чтобы следить за своими успехами в "
+                                                "таблице лидеров, мне потребуется твой никнейм. Как тебя зовут? Ты"
+                                               "можешь сказать свое имя или же произнести команду 'Не представляться'"))
+                user_storage['suggests'] = ["Не представляться"]
                 return response, user_storage
             if "name" not in user_storage.keys():
                 if not database.get_entry(request.user_id):
                     user_storage["asking_name"] = False
-                    user_storage["name"] = request.command.split(" ")[0]
-                    database.add_user(request.user_id, user_storage["name"])
-                    database.update_score(request.user_id, 0)
+                    if "Не представляться" not in request.command.lower():
+                        user_storage["name"] = request.command.split(" ")[0]
+                        database.add_user(request.user_id, user_storage["name"])
+                        database.update_score(request.user_id, 0)
+                    else:
+                        user_storage["name"] = None
                 else:
                     user_storage["name"] = database_module.show_score(database, request.user_id)[1]
             buttons, user_storage = get_suggests(user_storage)
@@ -104,7 +114,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
         resultsText = "\n"
         for i in range(len(results)):
             resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
-        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[1])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
+        if user_storage["name"]:
+            resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[1])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
         response.set_text(aliceSpeakMap(choice+resultsText))
         response.set_tts(aliceSpeakMap(choice+resultsText,True)+" Доступные команды: К началу")
         another_flag = True
@@ -126,7 +137,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = win_sound + otvet[1]+" Сл+едующий вопр+ос: "
-                database.update_score(request.user_id, 1)
+                if user_storage["name"]:
+                    database.update_score(request.user_id, 1)
             else:
                 failure_sound = random.choice(['<speaker audio="alice-sounds-game-loss-1.opus"> ',
                                                '<speaker audio="alice-sounds-game-loss-2.opus"> '])
