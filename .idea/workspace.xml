@@ -33,8 +33,8 @@
       <file leaf-file-name="zavalinka.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/zavalinka.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="127" column="21" lean-forward="false" selection-start-line="127" selection-start-column="21" selection-end-line="127" selection-end-column="21" />
+            <state relative-caret-position="221">
+              <caret line="73" column="37" lean-forward="false" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -85,6 +85,7 @@
       <find>&quot;Молодец!</find>
       <find>otvet</find>
       <find>set_tts</find>
+      <find>update_score</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -314,13 +315,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543343351074</updated>
-    </task>
-    <task id="LOCAL-00014" summary="fixes">
-      <created>1543347227724</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1543347227724</updated>
     </task>
     <task id="LOCAL-00015" summary="fixes">
       <created>1543347720158</created>
@@ -658,7 +652,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543415963879</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Костыли-велосипеды - перезагрузка 4 ака MicroFix 2&#10;NOW WITH SOUND&#10;AND FIXES&#10;MORE&#10;FIXES">
+      <created>1543417369777</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1543417369793</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -897,8 +898,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/zavalinka.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="127" column="21" lean-forward="false" selection-start-line="127" selection-start-column="21" selection-end-line="127" selection-end-column="21" />
+        <state relative-caret-position="221">
+          <caret line="73" column="37" lean-forward="false" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
           <folding />
         </state>
       </provider>

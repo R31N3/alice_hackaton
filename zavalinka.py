@@ -71,8 +71,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
             return response, user_storage
         another_flag = True
         flag = True
-        response.set_text("Здравствуйте, а я тебя помню!")
-        response.set_tts("Здравствуйте, а я тебя п+омню!")
+        response.set_text("Здравствуй, а я тебя помню!")
+        response.set_tts("Здравствуй, а я тебя п+омню!")
         return response, user_storage
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
