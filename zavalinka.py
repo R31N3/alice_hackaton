@@ -71,7 +71,10 @@ def handle_dialog(request, response, user_storage, database, wrd):
             ]
             buttons, user_storage = get_suggests(user_storage)
             if not another_flag:
-                choice = random.choice(aliceAnswers["thanksVariations"])+ " " + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
+                if user_storage["name"]:
+                    choice = random.choice(aliceAnswers["thanksVariations"])+ " " + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
+                else:
+                    choice = "Ну ладно. " + random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             else:
                 choice = random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             response.set_text(aliceSpeakMap(choice))
