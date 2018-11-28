@@ -126,7 +126,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = win_sound + otvet[1]+" Сл+едующий вопр+ос: "
-                database.update_score(request.user_id, database_module.show_score(database,1))
+                database.update_score(request.user_id, 1)
             else:
                 failure_sound = random.choice(['<speaker audio="alice-sounds-game-loss-1.opus"> ',
                                                '<speaker audio="alice-sounds-game-loss-2.opus"> '])
