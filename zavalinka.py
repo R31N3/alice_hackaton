@@ -30,7 +30,6 @@ def map_answer(myAns,withAccent=False):
 
 def handle_dialog(request, response, user_storage, database, wrd):
     global flag, another_flag
-
     answered = False
     if request.is_new_session or flag:
         answered = True
@@ -42,8 +41,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
             if request.is_new_session:
                 flag = True
                 answered = True
-                response.set_text(aliceSpeakMap("Как тебя зовут?"))
-                response.set_tts(aliceSpeakMap("Как тебя зовут?"))
+                response.set_text(aliceSpeakMap("Добрый день! Как вас зовут?"))
+                response.set_tts(aliceSpeakMap("Добрый день! Как вас зовут?"))
                 return response, user_storage
             if "name" not in user_storage.keys():
                 if not database.get_entry(request.user_id):
@@ -56,7 +55,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             user_storage['suggests']= [
-                "Хорошо","ОК",
+                "Хорошо",
                 "А что это?",
                 "Таблица лидеров"
             ]
@@ -66,15 +65,14 @@ def handle_dialog(request, response, user_storage, database, wrd):
             else:
                 choice = random.choice(aliceAnswers["helloTextVariations"]).capitalize()
             response.set_text(aliceSpeakMap(choice))
-            response.set_tts(aliceSpeakMap(choice,True))
+            response.set_tts(aliceSpeakMap(choice,True)+"Доступные команды: "+", ".join(user_storage["suggests"]))
             response.set_buttons(buttons)
             flag = False
             return response, user_storage
         another_flag = True
         flag = True
-        response.set_text("А я вас помню!")
-        response.set_tts("А я вас п+омню!")
-        user_storage['suggests'] = ['Ну ладно :С']
+        response.set_text("Здравствуйте, а я вас помню!")
+        response.set_tts("Здравствуйте, а я вас п+омню!")
         return response, user_storage
     if request.command.lower() in ['ладно', 'хорошо', 'ок', 'согласен','да','не, играть хочу'] and not user_storage.get(request.user_id):
         answered = True
@@ -86,7 +84,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
                           ' Если Вы угадали, то вам насчитывается балл.')
         response.set_tts('Зав+алинка - это игра на интуинт+ивное знание слов. Я назыв+аю Вам слово, например,'
                                   ' Кукушл+яндия. Я предлагаю Вам ответы внизу, наприм+ер, страна кук+ушек.'
-                                  ' Если Вы угад+али, то вам насч+итывается балл.')
+                                  ' Если Вы угад+али, то вам насч+итывается балл. Доступные команды'+
+                                  ", ".join(user_storage["suggests"]))
         buttons, user_storage = get_suggests(user_storage)
         response.set_buttons(buttons)
         return response, user_storage
@@ -104,9 +103,9 @@ def handle_dialog(request, response, user_storage, database, wrd):
         resultsText = "\n"
         for i in range(len(results)):
             resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
-        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[0])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
+        resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[1])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
         response.set_text(aliceSpeakMap(choice+resultsText))
-        response.set_tts(aliceSpeakMap(choice+resultsText,True))
+        response.set_tts(aliceSpeakMap(choice+resultsText,True)+" Доступные команды: К началу")
         another_flag = True
         flag = True
         user_storage["suggests"] = ["К началу"]
@@ -142,7 +141,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             buttons, user_storage = get_suggests(user_storage)
             response.set_buttons(buttons)
             response.set_text(user_storage[request.user_id]["text"]+"{} - это:".format(map_answer(word)))
-            response.set_tts(user_storage[request.user_id]["textToSpeech"]+"{} - это:".format(map_answer(word,True)))
+            response.set_tts(user_storage[request.user_id]["textToSpeech"]+"{} - это: {}".format(map_answer(word,True), ", ".join(user_storage["suggests"])))
             for e in answers:
                 if e[1]:
                     user_storage[request.user_id]["answer"] = e[0]
@@ -152,7 +151,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             if((user_storage["play_times"]+1)%3!=0):
                 response.set_text(user_storage[request.user_id]["text"] + aliceSpeakMap(choice).format(user_storage[request.user_id]["score"]))
                 response.set_tts(user_storage[request.user_id]["text"] + aliceSpeakMap(choice,True).format(user_storage[request.user_id]["score"]))
-                user_storage['suggests'] = ["Хорошо","Ок","Согласен", "Таблица лидеров"]
+                user_storage['suggests'] = ["Хорошо","Согласен", "Таблица лидеров"]
 
                 buttons, user_storage = get_suggests(user_storage)
                 response.set_buttons(buttons)
