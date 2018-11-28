@@ -32,11 +32,14 @@ class DatabaseManager:
                 })
             else:
                 print('Пользователь {} уже существует!'.format(user_id))
+                cursor.close()
+                return False
         except sqlite3.DatabaseError as error:
             print('Error: ', error)
         # else:
         #     self.connection.commit()
         cursor.close()
+        return True
 
     def update_score(self, user_id, add_to_the_score):
         print(threading.current_thread(), 'update_score')
@@ -135,8 +138,8 @@ if __name__ == '__main__':
 def show_score(base, user_id):
     # base = DatabaseManager()
     # entry = [(1, 'goshan.chamor@yandex.ru', 21)]
-    entry = base.get_entry(user_id)[0][2]
-    print('Счет пользователя {} равен {}.'.format(entry[0][1], entry[0][2]))
+    entry = base.get_entry(user_id)[0][1:3]
+    #print('Счет пользователя {} равен {}.'.format(entry[0][1], entry[0][2]))
     return entry
 
 
@@ -146,5 +149,5 @@ def show_leaderboard(base, top_number):
     if top_number > len(entries):
         top_number = len(entries)
     entries = sorted([entry[::-1] for entry in entries], reverse=True)
-    lst = [{entries[i][1]:entries[i][2]} for i in range(top_number)]
+    lst = [{entries[i][1]:entries[i][0]} for i in range(top_number)]
     return lst
