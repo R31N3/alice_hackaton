@@ -6,4 +6,5 @@ COPY . /app
 EXPOSE 5000
 
 RUN pip3 install -r requirements.txt
+RUN RUN sudo apt install python3.6
 CMD FLASK_APP=alice_app.py flask run --host="::"
