@@ -56,7 +56,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             if "name" not in user_storage.keys():
                 if not database.get_entry(request.user_id):
                     user_storage["asking_name"] = False
-                    if "не представляться" not in request.command.lower() and "К началу" not in request.command.lower():
+                    if "не представляться" not in request.command.lower() and "к началу" not in request.command.lower():
                         user_storage["name"] = request.command
                         database.add_user(request.user_id, user_storage["name"])
                         database.update_score(request.user_id, 0)
