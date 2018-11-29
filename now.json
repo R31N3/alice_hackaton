@@ -2,6 +2,6 @@
     "version": 2,
     "name": "python",
     "builds": [
-        { "src": "*.py", "use": "@now/python" }
+        { "src": "*.py", "use": "@now/python", "config": { "maxLambdaSize": "50mb" } }
     ]
 }
