@@ -196,7 +196,6 @@ def handle_dialog(request, response, user_storage, database, wrd):
                 buttons, user_storage = get_suggests(user_storage)
                 response.set_buttons(buttons)
             del user_storage[request.user_id]
-            user_storage["total_score"]+=int(user_storage[request.user_id]["score"])
         another_flag = False
         return response,user_storage
 
