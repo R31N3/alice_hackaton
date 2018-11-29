@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4bee5f23-21a4-4c2f-a6c6-171eafd5fd60" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dockerfile" afterPath="$PROJECT_DIR$/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zavalinka.py" afterPath="$PROJECT_DIR$/zavalinka.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -343,13 +340,6 @@
       <option name="presentableId" value="Default" />
       <updated>1543343351074</updated>
     </task>
-    <task id="LOCAL-00023" summary="fixes">
-      <created>1543349321111</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1543349321112</updated>
-    </task>
     <task id="LOCAL-00024" summary="Sample Text">
       <created>1543349636317</created>
       <option name="number" value="00024" />
@@ -686,7 +676,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543425576616</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Костыли-велосипеды - перезагрузка 4 ака MicroFix 2&#10;NOW WITH SOUND&#10;AND FIXES&#10;MORE&#10;FIXES&#10;Almoust Final&#10;almoust..&#10;theereee...&#10;.......................">
+      <created>1543498098944</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1543498098944</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="ToolWindowManager">
