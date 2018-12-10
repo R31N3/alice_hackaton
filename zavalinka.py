@@ -32,10 +32,8 @@ def handle_dialog(request, response, user_storage, database, wrd):
     global flag, another_flag
     answered = False
     if request.is_new_session or flag:
-        answered = True
         user_storage = {
             "asking_name":True,
-            'play_times':0,'total_score':0
         }
         if user_storage["asking_name"] and not (database.get_entry(request.user_id) and request.is_new_session):
             if request.is_new_session:
@@ -68,8 +66,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             response.set_buttons(buttons)
             user_storage['suggests']= [
                 "Давай",
-                "Помощь",
-                "Таблица лидеров"
+                "Помощь"
             ]
             buttons, user_storage = get_suggests(user_storage)
             if not another_flag:
@@ -84,7 +81,7 @@ def handle_dialog(request, response, user_storage, database, wrd):
             response.set_buttons(buttons)
             flag = False
             return response, user_storage
-        another_flag = True
+        another_flag = False
         flag = True
         response.set_text("Здравствуй, а я тебя помню!")
         response.set_tts("Здравствуй, а я тебя п+омню!")
@@ -121,16 +118,16 @@ def handle_dialog(request, response, user_storage, database, wrd):
         choice = random.choice(aliceAnswers["resultsShowVariations"])
         results = database_module.show_leaderboard(database, 10)
         resultsText = "\n"
-        for i in range(len(results)):
-            resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
-        if user_storage["name"]:
-            resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[1])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
-        if results:
-            response.set_text(aliceSpeakMap(choice+resultsText))
-            response.set_tts(aliceSpeakMap(choice+resultsText,True)+" Доступные команды: К началу")
-        else:
-            response.set_text("В данный момент в игре нет лидеров.")
-            response.set_tts("В данный момент в игре нет лидеров. Доступные команды: К началу")
+        #for i in range(len(results)):
+        #    resultsText+=str(i+1)+" место: "+list(results[i].keys())[0]+" ("+str(list(results[i].values())[0])+" "+wrd.make_agree_with_number(list(results[i].values())[0]).word+")\n"
+        #if user_storage["name"]:
+        #    resultsText+="А у вас счёт "+str(database_module.show_score(database, request.user_id)[1])+"! И всё таки, " + random.choice(aliceAnswers["helloTextVariations"]).lower()
+        #if results:
+        #    response.set_text(aliceSpeakMap(choice+resultsText))
+        #    response.set_tts(aliceSpeakMap(choice+resultsText,True)+" Доступные команды: К началу")
+        #else:
+        response.set_text("В данный момент в игре нет лидеров.")
+        response.set_tts("В данный момент в игре нет лидеров. Доступные команды: К началу")
         another_flag = True
         flag = True
         user_storage["suggests"] = ["К началу"]
@@ -141,12 +138,13 @@ def handle_dialog(request, response, user_storage, database, wrd):
     if user_storage.get(request.user_id):
         answered = True
         if user_storage[request.user_id]["answer"] and not another_flag:
+            print(map_answer(request.command).lower())
+            print(map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower())
             if map_answer(request.command).lower() == map_answer(user_storage[request.user_id]["answer"][:len(request.command)]).lower():
                 user_storage[request.user_id]["text"] = "Правильно! Следующий вопрос: "
-                win_sound = random.choice(['<speaker audio="alice-sounds-game-win-1.opus ">',
-                                           '<speaker audio="alice-sounds-game-win-2.opus ">',
-                                           '<speaker audio="alice-sounds-game-win-3.opus ">'])
-                user_storage[request.user_id]["textToSpeech"] = "Пр+авильно! Сл+едующий вопр+ос: "
+                win_sound = random.choice(['<speaker audio="alice-sounds-game-win-1.opus"> ',
+                                           '<speaker audio="alice-sounds-game-win-2.opus"> ',
+                                           '<speaker audio="alice-sounds-game-win-3.opus"> '])
                 otvet = random.choice([["Правильно!","Пр+авильно!"],["Отлично!","Отл+ично!"],["Молодец!","Молод+ец!"]])
                 user_storage[request.user_id]["text"] = otvet[0]+" Следующий вопрос: "
                 user_storage[request.user_id]["textToSpeech"] = win_sound + otvet[1]+" Сл+едующий вопр+ос: "

@@ -5,6 +5,9 @@ from __future__ import unicode_literals
 # Импортируем модули для работы с логами.
 import logging
 
+logging.info('!!!')
+print('hey')
+
 # Импортируем модуль для работы с API Алисы
 from alice_sdk import AliceRequest, AliceResponse
 
@@ -23,9 +26,16 @@ logging.basicConfig(level=logging.DEBUG)
 # Хранилище данных о сессиях.
 session_storage = {}
 
+print('ok')
+
+@app.route("/alice_hackaton/ping")
+def mainn():
+  return "pong"
+
+print('ololo')
 
 # Задаем параметры приложения Flask.
-@app.route("/", methods=['POST'])
+@app.route("/alice_hackaton/", methods=['POST'])
 def main():
     morph = pymorphy2.MorphAnalyzer()
     database = database_module.DatabaseManager()
@@ -36,7 +46,9 @@ def main():
     alice_response = AliceResponse(alice_request)
 
     user_id = alice_request.user_id
-
+    print(user_id)
+    print(session_storage.get(user_id))
+    print(len(session_storage))
     alice_response, session_storage[user_id] = handle_dialog(
         alice_request, alice_response, session_storage.get(user_id), database, morph.parse('очко')[0]
     )
